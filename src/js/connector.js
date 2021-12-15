@@ -29,6 +29,7 @@ const cardButtons = function(t, opts) {
 window.TrelloPowerUp.initialize(
   {
     'card-badges': function(t, opts) {
+      t.get();
       let cardAttachments = t.card('attachments');
       // let cardAttachments = opts.attachments;
       return t.card("name")
