@@ -49,6 +49,22 @@ window.TrelloPowerUp.initialize(
         condition: 'always',
         target: 'Trello Developer Site'
       }];
+    },
+    'card-detail-badges': function (t, opts) {
+      return t.card('name')
+          .get('name')
+          .then(function (cardName) {
+            return [{
+              dynamic: function () {
+                return {
+                  title: 'Detail Badge',
+                  text: '5',
+                  color: 'red',
+                  refresh: 10
+                };
+              },
+            }]
+          })
     }
   }
 );
