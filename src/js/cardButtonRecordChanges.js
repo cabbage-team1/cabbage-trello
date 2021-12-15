@@ -2,7 +2,9 @@ var t = window.TrelloPowerUp.iframe();
 
 onRecordBtnClick = function () {
     var changingTimes = t.get('card', 'shared', 'changeTime').then(function (result) {
-        console.log(JSON.stringify(result))
+        console.log(JSON.stringify(result));
+        console.log(result);
+        result.then(res => console.log(JSON.stringify(res)));
     });
     // if (changingTimes) {
     //     changingTimes.then(function (recordTime) {
