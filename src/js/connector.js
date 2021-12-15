@@ -11,14 +11,24 @@ const onBtnClick = function(t, opts) {
     title: 'Demand Change',
     items: [{
       text: 'Choose Time',
+      url: './cardButtonRecordChanges.html',
       callback: onSaveBtnClicked,
-    },{
-      text: 'In 1 hour'
-    }, {
-      text: 'In 2 hour'
     }]
   });
 };
+
+const cardButtons = function(t, opts) {
+  return [{
+    text: 'Demand Changes',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Emoji_u1f601.svg/2048px-Emoji_u1f601.svg.png',
+    callback: onBtnClick,
+    condition: 'edit'
+  }, {
+    text: 'Open',
+    condition: 'always',
+    target: 'Trello Developer Site'
+  }];
+}
 
 window.TrelloPowerUp.initialize(
   {
@@ -45,17 +55,7 @@ window.TrelloPowerUp.initialize(
           }];
       });
     },
-    'card-buttons': function(t, opts) {
-      return [{
-        text: 'record changes',
-        callback: onBtnClick,
-        condition: 'edit'
-      }, {
-        text: 'Open',
-        condition: 'always',
-        target: 'Trello Developer Site'
-      }];
-    },
+    'card-buttons': cardButtons,
     'card-detail-badges': function (t, opts) {
       return t.card('name')
           .get('name')
@@ -71,6 +71,6 @@ window.TrelloPowerUp.initialize(
               },
             }]
           })
-    }
+    },
   }
 );
