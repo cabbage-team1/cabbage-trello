@@ -1,11 +1,17 @@
 console.log('Hello World!');
 
+let changingTimes = 0;
+const onSaveBtnClicked = function (t, opts) {
+  changingTimes = changingTimes + 1;
+}
+
 const onBtnClick = function(t, opts) {
   console.log('Someone clicked the button');
   return t.popup({
     title: 'Demand Change',
     items: [{
-      text: 'Choose Time'
+      text: 'Choose Time',
+      callback: onSaveBtnClicked,
     },{
       text: 'In 1 hour'
     }, {
@@ -58,7 +64,7 @@ window.TrelloPowerUp.initialize(
               dynamic: function () {
                 return {
                   title: 'Changes',
-                  text: '5',
+                  text: changingTimes.toString(),
                   color: 'red',
                   refresh: 10
                 };
