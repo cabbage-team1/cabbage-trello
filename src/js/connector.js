@@ -9,13 +9,7 @@ const onBtnClick = function(t, opts) {
   console.log('Someone clicked the button');
   return t.popup({
     title: 'Demand Change',
-    items: [{
-      text: 'Choose Time',
-      url: './cardButtonRecordChanges.html'
-    }, {
-      text: 'Save',
-      callback: onSaveBtnClicked
-    }]
+    url: './cardButtonRecordChanges.html'
   });
 };
 
