@@ -14,6 +14,19 @@ const onBtnClick = function(t, opts) {
   });
 };
 
+const cardButtons = function(t, opts) {
+  return [{
+    text: 'Demand Changes',
+    icon: '😂',
+    callback: onBtnClick,
+    condition: 'edit'
+  }, {
+    text: 'Open',
+    condition: 'always',
+    target: 'Trello Developer Site'
+  }];
+}
+
 window.TrelloPowerUp.initialize(
   {
     'card-badges': function(t, opts) {
@@ -39,17 +52,7 @@ window.TrelloPowerUp.initialize(
           }];
       });
     },
-    'card-buttons': function(t, opts) {
-      return [{
-        text: 'record changes',
-        callback: onBtnClick,
-        condition: 'edit'
-      }, {
-        text: 'Open',
-        condition: 'always',
-        target: 'Trello Developer Site'
-      }];
-    },
+    'card-buttons': cardButtons,
     'card-detail-badges': function (t, opts) {
       return t.card('name')
           .get('name')
@@ -65,6 +68,6 @@ window.TrelloPowerUp.initialize(
               },
             }]
           })
-    }
+    },
   }
 );
