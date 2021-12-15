@@ -11,8 +11,10 @@ const onBtnClick = function(t, opts) {
     title: 'Demand Change',
     items: [{
       text: 'Choose Time',
-      url: './cardButtonRecordChanges.html',
-      callback: onSaveBtnClicked,
+      url: './cardButtonRecordChanges.html'
+    }, {
+      text: 'Save',
+      callback: onSaveBtnClicked
     }]
   });
 };
