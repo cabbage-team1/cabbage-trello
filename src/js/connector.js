@@ -57,7 +57,7 @@ window.TrelloPowerUp.initialize(
             return [{
               dynamic: function () {
                 return {
-                  title: 'Detail Badge',
+                  title: 'Changes',
                   text: '5',
                   color: 'red',
                   refresh: 10
