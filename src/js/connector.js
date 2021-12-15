@@ -17,7 +17,7 @@ const onBtnClick = function(t, opts) {
 const cardButtons = function(t, opts) {
   return [{
     text: 'Demand Changes',
-    icon: '😂',
+    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Emoji_u1f601.svg/2048px-Emoji_u1f601.svg.png',
     callback: onBtnClick,
     condition: 'edit'
   }, {
