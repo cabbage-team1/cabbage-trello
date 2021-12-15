@@ -1,7 +1,7 @@
-const onRecordBtnClick = function (){
+onRecordBtnClick = function (){
     console.log("clickRecord")
 }
 
-const onSaveBtnClick = function (){
+onSaveBtnClick = function (){
     console.log("onSaveBtnClick")
 }
