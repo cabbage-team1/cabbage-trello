@@ -1,13 +1,16 @@
 .container {
     display: flex;
     flex-direction: column;
+    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
 }
 
 .button-container {
+    display: flex;
     flex-direction: row;
 }
 
 .button {
     border-radius: 3px;
-    font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Noto Sans,Ubuntu,Droid Sans,Helvetica Neue,sans-serif;
+    background-color: #61BD4F;
+    color: antiquewhite;
 }
