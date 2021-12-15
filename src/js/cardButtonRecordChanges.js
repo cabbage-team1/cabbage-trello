@@ -1,9 +1,9 @@
 var t = window.TrelloPowerUp.iframe();
 
 onRecordBtnClick = function () {
-    var changeTime = t.get('card', 'shared', 'changeTime');
-    if (changeTime) {
-        changeTime.then(function (board) {
+    var changingTimes = t.get('card', 'shared', 'changeTime');
+    if (changingTimes) {
+        changingTimes.then(function (board) {
             changingTimes = changingTimes + 1;
             console.log(JSON.stringify(board, null, 2));
             t.set('card', 'shared', {"changeTime": changingTimes}).then(function (savedTimes) {
