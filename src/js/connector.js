@@ -22,22 +22,6 @@ const cardButtons = function () {
 window.TrelloPowerUp.initialize(
     {
         'board-buttons': getBoardButton,
-        'card-badges': function () {
-            return [
-                {
-                    dynamic: function () {
-                        return {
-                            text: "Dynamic" + (Math.random() * 100).toFixed(0).toString(),
-                            color: "green",
-                            refresh: 10,
-                        };
-                    },
-                },
-                {
-                    text: "Static",
-                    color: null,
-                }];
-        },
         'card-buttons': cardButtons,
         "card-detail-badges": function (t) {
             return t.get(t.getContext().card, 'shared', 'requirementChangeCount')
