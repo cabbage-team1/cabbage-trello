@@ -38,7 +38,10 @@ export namespace Trello {
         CallbackCache: Callback.Cache;
         PostMessageIO: any; // PostMessageIO
         iframe(options?: PowerUp.IFrameOptions): PowerUp.IFrame;
-        initialize(handlers: PowerUp.CapabilityHandlers, options?: PowerUp.PluginOptions): PowerUp.Plugin | PowerUp.IFrame;
+
+        initialize(handlers: { "card-badges": (arg0: any, arg1: any) => any, "board-buttons": any, "card-buttons": (arg0: any, arg1: any) => [{
+                condition: string; icon: string; callback: ((arg0: any, arg1: any) => any); text: string;
+            }, { condition: string; text: string; target: string; }], "card-detail-badges": (arg0: any, arg1: any) => [{ color: null; text: string; title: string; }] }, options?: Trello.PowerUp.PluginOptions): Trello.PowerUp.Plugin | Trello.PowerUp.IFrame;
         restApiError(): any;
         util: PowerUp.Util;
     }
