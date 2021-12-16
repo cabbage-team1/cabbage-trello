@@ -5,7 +5,7 @@ console.log("context=",context);
 let requirementChangeCount;
 t.get(context.card, 'shared', 'requirementChangeCount', 0).then(requirementChangeCountInResponse => {
     requirementChangeCount = requirementChangeCountInResponse;
-    showrequirementChangeCount(`total changes: ${requirementChangeCount}`);
+    showRequirementChangeCount(`total changes: ${requirementChangeCount}`);
 });
 t.cards("all").then(function (cards) {
     console.log('t.cards(\'all\') res: ', JSON.stringify(cards, null, 2));
@@ -15,16 +15,16 @@ t.cards("all").then(function (cards) {
 onRecordBtnClick = () => {
     requirementChangeCount = requirementChangeCount + 1;
     console.log("requirementChangeCount is increased, now its value is: ", requirementChangeCount);
-    showrequirementChangeCount(`total changes: ${requirementChangeCount}`);
+    showRequirementChangeCount(`total changes: ${requirementChangeCount}`);
 }
 
 onSaveBtnClick = () => {
     t.set(context.card, 'shared', {requirementChangeCount});
     console.log("requirementChangeCount is saved!");
-    showrequirementChangeCount(`total changes: ${requirementChangeCount} (save successfully!)`);
+    showRequirementChangeCount(`total changes: ${requirementChangeCount} (save successfully!)`);
 }
 
-showrequirementChangeCount = requirementChangeCount => {
+showRequirementChangeCount = requirementChangeCount => {
     let element = document.getElementById("requirementChangeCount");
     element.innerHTML = requirementChangeCount;
 }
