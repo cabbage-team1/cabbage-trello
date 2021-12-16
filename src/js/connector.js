@@ -30,7 +30,11 @@ window.TrelloPowerUp.initialize(
   {
     'board-buttons':function (t, opts) {
       return [{
-        text:'Requirement Changes'
+        text:'Requirement Changes',
+        callback:t.modal({
+          title:'Requirement Changes Analysis',
+          fullscreen:true,
+        })
       }];
     },
     'card-badges': function(t, opts) {
