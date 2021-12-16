@@ -2,10 +2,10 @@ const t = window.TrelloPowerUp.iframe();
 
 const context = t.getContext();
 console.log("context=",context);
-let demandChangeCount;
-t.get(context.card, 'shared', 'demandChangeCount').then(demandChangeCountInResponse => {
-    demandChangeCount = demandChangeCountInResponse ? demandChangeCountInResponse : 0;
-    showDemandChangeCount(`total changes: ${demandChangeCount}`);
+let requirementChangeCount;
+t.get(context.card, 'shared', 'requirementChangeCount', 0).then(requirementChangeCountInResponse => {
+    requirementChangeCount = requirementChangeCountInResponse;
+    showrequirementChangeCount(`total changes: ${requirementChangeCount}`);
 });
 t.cards("all").then(function (cards) {
     console.log('t.cards(\'all\') res: ', JSON.stringify(cards, null, 2));
@@ -13,18 +13,18 @@ t.cards("all").then(function (cards) {
 
 
 onRecordBtnClick = () => {
-    demandChangeCount = demandChangeCount + 1;
-    console.log("demandChangeCount is increased, now its value is: ", demandChangeCount);
-    showDemandChangeCount(`total changes: ${demandChangeCount}`);
+    requirementChangeCount = requirementChangeCount + 1;
+    console.log("requirementChangeCount is increased, now its value is: ", requirementChangeCount);
+    showrequirementChangeCount(`total changes: ${requirementChangeCount}`);
 }
 
 onSaveBtnClick = () => {
-    t.set(context.card, 'shared', {demandChangeCount});
-    console.log("demandChangeCount is saved!");
-    showDemandChangeCount(`total changes: ${demandChangeCount} (save successfully!)`);
+    t.set(context.card, 'shared', {requirementChangeCount});
+    console.log("requirementChangeCount is saved!");
+    showrequirementChangeCount(`total changes: ${requirementChangeCount} (save successfully!)`);
 }
 
-showDemandChangeCount = demandChangeCount => {
-    let element = document.getElementById("demandChangeCount");
-    element.innerHTML = demandChangeCount;
+showrequirementChangeCount = requirementChangeCount => {
+    let element = document.getElementById("requirementChangeCount");
+    element.innerHTML = requirementChangeCount;
 }
