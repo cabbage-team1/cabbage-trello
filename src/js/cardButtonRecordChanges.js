@@ -19,9 +19,17 @@ onRecordBtnClick = () => {
 }
 
 onSaveBtnClick = () => {
-    t.set(context.card, 'shared', {requirementChangeCount});
-    console.log("requirementChangeCount is saved!");
-    showRequirementChangeCount(`total changes: ${requirementChangeCount} (save successfully!)`);
+    t.set(context.card, 'shared', {requirementChangeCount})
+        .then(res => {
+                console.log("requirementChangeCount is saved!");
+                console.log('the response is: ', res);
+                showRequirementChangeCount(`total changes: ${requirementChangeCount} (save successfully!)`);
+        },
+            error => {
+                console.log("requirementChangeCount is saved!");
+                console.log('the error response is: ', error);
+                showRequirementChangeCount(`total changes: ${requirementChangeCount} (failed to save!)`);
+            });
 }
 
 showRequirementChangeCount = requirementChangeCount => {
