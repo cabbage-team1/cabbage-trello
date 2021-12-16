@@ -1,76 +1,61 @@
 import {getBoardButton} from "./getBoardButton";
 
 console.log('Hello World!');
+let requirementChangeCount;
 
-let changingTimes = 0;
-const onSaveBtnClicked = function (t, opts) {
-  changingTimes = changingTimes + 1;
-}
-
-const onBtnClick = function(t, opts) {
-  console.log('Someone clicked the button');
-  return t.popup({
-    title: 'Requirement Changes',
-    url: './cardButtonRecordChanges.html'
-  });
+const onBtnClick = function (t) {
+    return t.popup({
+        title: 'Requirement Changes',
+        url: './cardButtonRecordChanges.html'
+    });
 };
 
-const cardButtons = function(t, opts) {
-  return [{
-    text: 'Demand Changes',
-    icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Emoji_u1f601.svg/2048px-Emoji_u1f601.svg.png',
-    callback: onBtnClick,
-    condition: 'edit'
-  }, {
-    text: 'Open',
-    condition: 'always',
-    target: 'Trello Developer Site'
-  }];
+const cardButtons = function () {
+    return [{
+        text: 'Demand Changes',
+        icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Emoji_u1f601.svg/2048px-Emoji_u1f601.svg.png',
+        callback: onBtnClick,
+        condition: 'edit'
+    }, {
+        text: 'Open',
+        condition: 'always',
+        target: 'Trello Developer Site'
+    }];
 }
 
 window.TrelloPowerUp.initialize(
-  {
-    'board-buttons':getBoardButton,
-    'card-badges': function(t, opts) {
-      t.get();
-      let cardAttachments = t.card('attachments');
-      // let cardAttachments = opts.attachments;
-      return t.card("name")
-        .get("name")
-        .then(function(cardName) {
-        console.log('card name  ' + cardName);
-        return [
-          {
-          dynamic: function() {
-            return {
-              text: "Dynamic" + (Math.random() * 100).toFixed(0).toString(),
-              color: "green",
-              refresh: 10,
-            };
-          },
+    {
+        'board-buttons': getBoardButton,
+        'card-badges': function () {
+            return [
+                {
+                    dynamic: function () {
+                        return {
+                            text: "Dynamic" + (Math.random() * 100).toFixed(0).toString(),
+                            color: "green",
+                            refresh: 10,
+                        };
+                    },
+                },
+                {
+                    text: "Static",
+                    color: null,
+                }];
         },
-          {
-            text: "Static",
-            color: null,
-          }];
-      });
-    },
-    'card-buttons': cardButtons,
-    'card-detail-badges': function (t, opts) {
-      return t.card('name')
-          .get('name')
-          .then(function (cardName) {
-            return [{
-              dynamic: function () {
-                return {
-                  title: 'Changes',
-                  text: changingTimes.toString(),
-                  color: 'red',
-                  refresh: 10
-                };
-              },
-            }]
-          })
-    },
-  }
+        'card-buttons': cardButtons,
+        "card-detail-badges": function (t) {
+            return t.get(t.getContext().card, 'shared', 'requirementChangeCount')
+                .then(res => {
+                    console.log('requirementChangeCount in res: ', res);
+                    requirementChangeCount = res ? res : 0;
+                    return [
+                        {
+                            title: "Requirement Changes",
+                            text: requirementChangeCount,
+                            color: 'red',
+                        },
+                    ];
+                })
+        },
+    }
 );

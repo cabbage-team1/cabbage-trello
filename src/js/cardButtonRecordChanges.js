@@ -1,25 +1,24 @@
 const t = window.TrelloPowerUp.iframe();
 
 const context = t.getContext();
-const REQUIREMENT_CHANGE_TEXT = `Total Changes: ${requirementChangeCount}`;
 let requirementChangeCount;
-t.get(context.card, 'shared', 'requirementChangeCount', 0).then(requirementChangeCountInResponse => {
+t.get(context.card, 'shared', 'requirementChangeCount',0).then(requirementChangeCountInResponse => {
     requirementChangeCount = requirementChangeCountInResponse;
-    showRequirementChangeCount(REQUIREMENT_CHANGE_TEXT);
+    showRequirementChangeCount(`Total Changes: ${requirementChangeCount}`);
 });
 
 onRecordBtnClick = () => {
     requirementChangeCount = requirementChangeCount + 1;
-    showRequirementChangeCount(REQUIREMENT_CHANGE_TEXT);
+    showRequirementChangeCount(`Total Changes: ${requirementChangeCount}`);
 }
 
 onSaveBtnClick = () => {
     t.set(context.card, 'shared', {requirementChangeCount})
         .then(() => {
-                showRequirementChangeCount(REQUIREMENT_CHANGE_TEXT + '(save successfully!)');
+                showRequirementChangeCount(`Total Changes: ${requirementChangeCount}` + '(save successfully!)');
             },
             () => {
-                showRequirementChangeCount(REQUIREMENT_CHANGE_TEXT + '(failed to save!)');
+                showRequirementChangeCount(`Total Changes: ${requirementChangeCount}` + '(failed to save!)');
             });
 }
 
