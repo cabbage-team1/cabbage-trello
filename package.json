@@ -6,9 +6,6 @@
   "repository": "git@github.com:trello/weather-power-up.git",
   "author": "Matt Cowan <mcowan@atlassian.com>",
   "license": "MIT",
-  "engines": {
-    "node": "16"
-  },
   "scripts": {
     "build": "parcel build src/html/*.html"
   },

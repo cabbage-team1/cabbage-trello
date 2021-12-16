@@ -1,3 +1,5 @@
+import {getBoardButton} from "./getBoardButton";
+
 console.log('Hello World!');
 
 let changingTimes = 0;
@@ -28,15 +30,7 @@ const cardButtons = function(t, opts) {
 
 window.TrelloPowerUp.initialize(
   {
-    'board-buttons':function (t, opts) {
-      return [{
-        text:'Requirement Changes',
-        callback:t.modal({
-          title:'Requirement Changes Analysis',
-          fullscreen:true,
-        })
-      }];
-    },
+    'board-buttons':getBoardButton,
     'card-badges': function(t, opts) {
       t.get();
       let cardAttachments = t.card('attachments');
