@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
+    text-align: center;
 }
 
 .button-container {
@@ -17,4 +18,13 @@
     color: #FFFFFF;
     background-color: #61BD4F;
     padding: 6px 12px;
+}
+
+.left {
+    margin-left: 45px;
+    margin-right: 20px;
+}
+
+.right {
+    margin-left: 33px;
 }
