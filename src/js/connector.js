@@ -3,23 +3,19 @@ import {getBoardButton} from "./getBoardButton";
 console.log('Hello World!');
 let requirementChangeCount;
 
-const onBtnClick = function (t) {
+const onCardBtnClick = function (t) {
     return t.popup({
-        title: 'Requirement Changes',
+        title: 'Requirement Change',
         url: './cardButtonRecordChanges.html'
     });
 };
 
 const cardButtons = function () {
     return [{
-        text: 'Demand Changes',
+        text: 'Requirement Change',
         icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Emoji_u1f601.svg/2048px-Emoji_u1f601.svg.png',
-        callback: onBtnClick,
-        condition: 'edit'
-    }, {
-        text: 'Open',
+        callback: onCardBtnClick,
         condition: 'always',
-        target: 'Trello Developer Site'
     }];
 }
 
