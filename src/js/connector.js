@@ -24,7 +24,7 @@ window.TrelloPowerUp.initialize(
         'board-buttons': getBoardButton,
         'card-buttons': cardButtons,
         'card-badges': function(t) {
-            return t.get(t.getContext().card, 'shared', 'demandChangeCount').then(res => {
+            return t.get(t.getContext().card, 'shared', 'requirementChangeCount').then(res => {
                 if(res) {
                     return [{
                         text: 'Changes',
