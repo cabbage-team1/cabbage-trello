@@ -30,7 +30,7 @@ window.TrelloPowerUp.initialize(
                     requirementChangeCount = res ? res : 0;
                     return [
                         {
-                            title: "Requirement Changes",
+                            title: "Changes",
                             text: requirementChangeCount,
                             color: 'red',
                         },
