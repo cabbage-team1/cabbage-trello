@@ -10,7 +10,7 @@ const onSaveBtnClicked = function (t, opts) {
 const onBtnClick = function(t, opts) {
   console.log('Someone clicked the button');
   return t.popup({
-    title: 'Demand Change',
+    title: 'Requirement Changes',
     url: './cardButtonRecordChanges.html'
   });
 };
