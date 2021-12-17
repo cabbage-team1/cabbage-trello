@@ -13,7 +13,7 @@ const onCardBtnClick = function (t) {
 const cardButtons = function () {
     return [{
         text: 'Requirement Change',
-        icon: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Emoji_u1f601.svg/2048px-Emoji_u1f601.svg.png',
+        icon: 'https://uxwing.com/wp-content/themes/uxwing/download/19-e-commerce-currency-shopping/change-exchange.png',
         callback: onCardBtnClick,
         condition: 'always',
     }];
@@ -27,7 +27,7 @@ window.TrelloPowerUp.initialize(
             return t.get(t.getContext().card, 'shared', 'requirementChangeCount').then(res => {
                 if(res) {
                     return [{
-                        text: 'Changes',
+                        icon:'https://uxwing.com/wp-content/themes/uxwing/download/19-e-commerce-currency-shopping/change-exchange.png',
                         color: 'red'
                     }]
                 }
