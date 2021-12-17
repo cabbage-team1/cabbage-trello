@@ -1,6 +1,6 @@
 export function getBoardButton(t, opts) {
     return [{
-        text: 'Requirement Changes Analysis',
+        text: 'Requirement Changes',
         condition: 'always',
         callback: function (t, opt) {
             t.popup({
