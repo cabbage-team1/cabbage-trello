@@ -40,6 +40,7 @@ t.board('labels').then(res => {
     .then(() => startAnalysis());
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
+        console.log('cards: ', cards);
         cards.forEach(cardInfo => {
             t.get(cardInfo.id, 'shared', 'requirementChangeCount')
                 .then(requirementChangeCount => {
@@ -85,6 +86,7 @@ drawHistogram = () => {
 }
 
 generateHistogramOption = source => {
+    const _ = require('lodash');
     const labels = _.drop(source).map(data => data[0]);
     console.log('labels', labels);
     const histogramOption = {
