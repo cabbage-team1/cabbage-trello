@@ -3,6 +3,8 @@ const t = window.TrelloPowerUp.iframe();
 
 const context = t.getContext();
 let requirementChangeCount;
+let diffDescArray;
+
 t.get(context.card, 'shared', 'requirementChangeCount',0).then(requirementChangeCountInResponse => {
     requirementChangeCount = requirementChangeCountInResponse;
     showRequirementChangeCount(`Total Changes: ${requirementChangeCount}`);
@@ -69,7 +71,38 @@ window.onRecordBtnClick = function onRecordBtnClick() {
     showRequirementChangeCount(`Total Changes: ${requirementChangeCount}`);
 }
 
+function getSavedDateTime() {
+    const savedTime = Date.now();
+    const now = new Date(savedTime);
+    console.log('now.getDate: ', now.getDate());
+    return 'yyyy/mm/dd'.replace('mm', now.getMonth() + 1)
+        .replace('yyyy', now.getFullYear())
+        .replace('dd', now.getDate());
+}
+
 window.onSaveBtnClick = function onSaveBtnClick() {
+    //trello database 存储与original desc的diff ：86-105
+    const Diff = require("diff");
+    const savedDateTime = getSavedDateTime();
+    console.log('after formatted savedDateTime: ', savedDateTime);
+    let currentDesc;
+    t.card('desc').get('desc').then(function (curDesc) {
+        currentDesc = curDesc;
+        console.log('let currentDesc: ', currentDesc);
+    });
+    t.get(context.card, 'shared', 'originalDesc').then(function (lastDesc) {
+        diffDescArray = Diff.diffChars(lastDesc.fulfillmentValue, currentDesc);
+        console.log('diff：', diffDescArray);
+        t.set(context.card, 'shared', {
+            diff: diffDescArray,
+            savedTime: savedDateTime
+        }).then(function () {
+            t.get(context.card, 'shared', 'savedTime').then(res => console.log('savedTime: ', res))
+        })
+        t.get(context.card, 'shared', 'originalDesc')
+            .then(res => console.log('previous desc: \n', res))
+    })
+    //
     t.set(context.card, 'shared', {requirementChangeCount})
         .then(() => {
                 showRequirementChangeCount(`Total Changes: ${requirementChangeCount}` + '(save successfully!)');
@@ -96,4 +129,14 @@ window.onSaveBtnClick = function onSaveBtnClick() {
 const showRequirementChangeCount = requirementChangeCount => {
     let element = document.getElementById('requirementChangeCount');
     element.innerHTML = requirementChangeCount;
+}
+
+window.onDiffBtnClick = function () {
+    console.log('new page');
+    return t.modal({
+        url: './lastDescDiff.html',
+        height: 500,
+        fullscreen: false,
+        title: 'Diff Description'
+    })
 }

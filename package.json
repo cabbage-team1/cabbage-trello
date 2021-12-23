@@ -14,6 +14,7 @@
     "http-proxy-middleware": "^2.0.1"
   },
   "devDependencies": {
+    "diff": "^5.0.0",
     "parcel-bundler": "^1.12.5"
   }
 }
