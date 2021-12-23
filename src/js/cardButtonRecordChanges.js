@@ -85,28 +85,10 @@ window.onSaveBtnClick = function onSaveBtnClick() {
         info.version = `v${requirementChangeCount}.0`;
         axios.post("http://localhost:8086/description", info).then(res => {
 
-            const btnList = document.getElementsByTagName("button");
-            let versionBtnList = [];
-            for (let i = 0; i < btnList.length; i++) {
-                if(btnList[i].textContent.substr(0, 1) === "v") {
-                    versionBtnList.push(btnList[i]);
-                }
-            }
-
-            if(versionBtnList.length < 5) {
-                axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
-                    let versionRecord = document.getElementById("versionRecord");
-                    addBtnForVersionRecord(list, versionRecord, 0);
-                });
-            }
-            else {
-                axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
-
-                    for (let i = list.data.length - 1, j = 0; i >= list.data.length - 5, j < 5; i--, j++) {
-                        versionBtnList[j].textContent = list.data[i].version;
-                    }
-                });
-            }
+            axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
+                let versionRecord = document.getElementById("versionRecord");
+                addBtnForVersionRecord(list, versionRecord, 0);
+            });
         });
     });
 }
