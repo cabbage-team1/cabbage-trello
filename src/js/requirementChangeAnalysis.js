@@ -36,20 +36,19 @@ t.board('labels').then(res => {
     const _ = require('lodash');
     labelSet = _.filter(res.labels, label => label.name !== '');
     console.log('labelSet: ', labelSet);
-})
-    .then(() => startAnalysis());
+});
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
         console.log('cards: ', cards);
         cards.forEach(cardInfo => {
             t.get(cardInfo.id, 'shared', 'requirementChangeCount')
                 .then(requirementChangeCount => {
-                    cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}]
+                    console.log('requirementChangeCount: ',requirementChangeCount);
+                    cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}];
                 })
         });
         console.log('cardsInfo: ', cardsInfo);
-    })
-    .then(() => startAnalysis());
+    });
 
 startAnalysis = () => {
     drawPieChart();
@@ -96,7 +95,10 @@ generateHistogramOption = source => {
             textAlign: 'left',
             left: '20%'
         },
-        legend: {},
+        legend: {
+            top: '100%',
+            right: '15%'
+        },
         tooltip: {},
         dataset: {
             source: [

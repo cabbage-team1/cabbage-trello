@@ -7,7 +7,7 @@ export function getBoardButton(t, opts) {
             t.modal({
                 title: 'Requirement Change Analysis',
                 url: './requirementChangeAnalysis.html',
-                height: 800,
+                fullscreen: true,
             })
         }
     }];
