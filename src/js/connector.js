@@ -15,7 +15,7 @@ const getCardButtons = function (t) {
     const context = t.getContext();
     t.lists('id', 'name').then(function (lists) {
         lists.forEach(function (list) {
-            if (list.name === 'IN DEV') {
+            if (list.name === '高效生产中') {
                 inDevListId = list.id;
             }
         });
