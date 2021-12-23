@@ -41,9 +41,9 @@ t.board('labels').then(res => {
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
         cards.forEach(cardInfo => {
-            t.get(cardInfo.id, 'shared', 'demandChangeCount')
-                .then(demandChangeCount => {
-                    cardsInfo = [...cardsInfo, {...cardInfo, demandChangeCount}]
+            t.get(cardInfo.id, 'shared', 'requirementChangeCount')
+                .then(requirementChangeCount => {
+                    cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}]
                 })
         });
         console.log('cardsInfo: ', cardsInfo);
@@ -71,7 +71,7 @@ drawHistogram = () => {
         const cardCount = list.length;
         let changeCount = 0;
         _.forEach(list, singleCard => {
-            const singleCount = _.get(singleCard, 'demandChangeCount', 0);
+            const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
             changeCount += singleCount;
         });
         console.log('twoWeeksStart: ', twoWeeksStart);
@@ -183,7 +183,7 @@ calculateRequirementChangeCountAndCardCountAsSource = dataSet => {
     _.forEach(dataSet, (value, key) => {
         let changeCount = 0;
         _.forEach(value, singleCard => {
-            const singleCount = _.get(singleCard, 'demandChangeCount', 0);
+            const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
             changeCount += singleCount;
         });
         data = [...data, {name: key, value: changeCount}];
