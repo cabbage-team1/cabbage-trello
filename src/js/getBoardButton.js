@@ -4,10 +4,10 @@ export function getBoardButton(t, opts) {
         text: 'Requirement Changes',
         condition: 'always',
         callback: function (t, opt) {
-            t.popup({
-                title: 'Requirement Changes Analysis',
-                url: 'requirementChangeList.html',
-                height: 278,
+            t.modal({
+                title: 'Requirement Change Analysis',
+                url: './requirementChangeAnalysis.html',
+                height: 800,
             })
         }
     }];

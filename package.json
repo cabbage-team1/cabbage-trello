@@ -15,7 +15,8 @@
   },
   "devDependencies": {
     "diff": "^5.0.0",
+    "colors": "^1.4.0",
     "parcel-bundler": "^1.12.5",
-    "colors": "^1.4.0"
+    "lodash": "^4.17.21"
   }
 }
