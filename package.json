@@ -9,6 +9,10 @@
   "scripts": {
     "build": "parcel build src/html/*.html"
   },
+  "dependencies": {
+    "axios": "^0.24.0",
+    "http-proxy-middleware": "^2.0.1"
+  },
   "devDependencies": {
     "parcel-bundler": "^1.12.5"
   }
