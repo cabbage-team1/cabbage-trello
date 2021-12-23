@@ -5,8 +5,6 @@ let dataSet = {};
 const t = window.TrelloPowerUp.iframe();
 
 var echarts = require('echarts');
-const moment = require("moment");
-const _ = require("lodash");
 var chartDom = document.getElementById('charts');
 var myChart = echarts.init(chartDom);
 var option;
@@ -38,7 +36,8 @@ t.board('labels').then(res => {
     const _ = require('lodash');
     labelSet = _.filter(res.labels, label => label.name !== '');
     console.log('labelSet: ', labelSet);
-});
+})
+    .then(() => startAnalysis());
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
         cards.forEach(cardInfo => {
@@ -48,7 +47,8 @@ t.cards('id', 'labels', 'name', 'dateLastActivity')
                 })
         });
         console.log('cardsInfo: ', cardsInfo);
-    });
+    })
+    .then(() => startAnalysis());
 
 startAnalysis = () => {
     drawPieChart();
