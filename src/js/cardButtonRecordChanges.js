@@ -96,7 +96,7 @@ window.onSaveBtnClick = function onSaveBtnClick() {
             if(versionBtnList.length < 5) {
                 axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
                     let versionRecord = document.getElementById("versionRecord");
-                    addBtnForVersionRecord(list, versionRecord);
+                    addBtnForVersionRecord(list, versionRecord, 0);
                 });
             }
             else {
