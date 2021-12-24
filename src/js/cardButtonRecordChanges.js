@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 const t = window.TrelloPowerUp.iframe();
 
 const context = t.getContext();
@@ -24,19 +23,19 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
     versionRecord.id = "versionRecord";
 
     for (let i = list.data.length - 1 - curPage * 5; i >= list.data.length - curPage * 5 - 5 && i >= 0; i--) {
-        const button = document.createElement("button");
-        button.textContent = list.data[i].version;
-        button.addEventListener('click', function () {
-            onVersionBtnCLick(button.textContent)
-        });
-        versionRecord.appendChild(button);
+        if(list.data[i].version !== 'v0.0') {
+            const button = document.createElement("button");
+            button.textContent = list.data[i].version;
+            button.addEventListener('click', function () {onVersionBtnCLick(button.textContent)});
+            versionRecord.appendChild(button);
+        }
     }
 
-    if (list.data.length > 5 || curPage !== 0) {
+    if(list.data.length > 5 || curPage !== 0) {
         const prevPage = document.createElement("button");
         prevPage.textContent = "<";
-        prevPage.onclick = function () {
-            if (curPage > 0) {
+        prevPage.onclick = function() {
+            if(curPage > 0) {
                 curPage = curPage - 1;
                 addBtnForVersionRecord(list, versionRecord, curPage);
             }
@@ -45,8 +44,9 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 
         const nextPage = document.createElement("button");
         nextPage.textContent = ">";
-        nextPage.onclick = function () {
-            if (curPage <= list.data.length / 5) {
+        nextPage.onclick = function() {
+            if(curPage <= list.data.length / 5)
+            {
                 curPage = curPage + 1;
                 addBtnForVersionRecord(list, versionRecord, curPage);
             }
