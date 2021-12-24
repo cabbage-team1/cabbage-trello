@@ -87,7 +87,7 @@ drawHistogram = () => {
 
 generateHistogramOption = source => {
     const _ = require('lodash');
-    const labels = _.drop(source).map(data => data[0]);
+    const labels = _.drop(source).map(data => data[data.length - 1]);
     const histogramOption = {
         color: ['#d3f998', '#59c276'],
         title: {
