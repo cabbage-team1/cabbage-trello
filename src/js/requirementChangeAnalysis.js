@@ -79,6 +79,7 @@ drawHistogram = () => {
         console.log('cardCount and changeCount: ', cardCount, changeCount);
         source = [...source, [`${twoWeeksStart.format('MM/DD')} ~ ${twoWeeksEnd.format('MM/DD')}`, cardCount, changeCount]];
     }
+    source = _.reverse(source);
     console.log('source: ', source);
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
@@ -87,7 +88,6 @@ drawHistogram = () => {
 generateHistogramOption = source => {
     const _ = require('lodash');
     const labels = _.drop(source).map(data => data[0]);
-    console.log('labels', labels);
     const histogramOption = {
         color: ['#d3f998', '#59c276'],
         title: {
