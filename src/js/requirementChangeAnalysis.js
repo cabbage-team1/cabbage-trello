@@ -148,7 +148,7 @@ drawPieChart = () => {
 generatePieChartOption = data => {
     const pieChartOption = {
         title: {
-            text: 'Total number of requirement changes by labels',
+            text: 'Total Number of Requirement Changes by Labels',
             x: 'center',
             textStyle: {
                 fontSize: 30
