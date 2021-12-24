@@ -92,14 +92,18 @@ generateHistogramOption = source => {
         color: ['#d3f998', '#59c276'],
         title: {
             text: 'Requirement Changes Statistics',
-            textAlign: 'left',
-            left: '20%'
+            x: 'center',
+            textStyle: {
+                fontSize: 30
+            }
         },
         legend: {
-            top: '100%',
-            right: '15%'
+            right: '10%',
+            top: '5%'
         },
-        tooltip: {},
+        grid: {
+            top: '10%'
+        },
         dataset: {
             source: [
                 ['cycle', 'cards count', 'changes count'],
