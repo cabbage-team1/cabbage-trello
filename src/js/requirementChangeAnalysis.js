@@ -145,12 +145,22 @@ drawPieChart = () => {
 
 generatePieChartOption = data => {
     const pieChartOption = {
-        tooltip: {
-            trigger: 'item'
+        title: {
+            text: 'Total number of requirement changes by labels',
+            x: 'center',
+            textStyle: {
+                fontSize: 30
+            }
         },
         legend: {
-            top: '5%',
-            left: 'center'
+            right: '10%',
+            top: '7%'
+        },
+        grid: {
+            top: '20%'
+        },
+        tooltip: {
+            trigger: 'item'
         },
         series: [
             {
