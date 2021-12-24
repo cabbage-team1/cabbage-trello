@@ -56,9 +56,10 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 }
 
 function onVersionBtnCLick(text) {
-    console.log("0.list: ", text);
+    console.log("0.text: ", text);
     const savedDateTime = getSavedDateTime();
     axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
+        console.log("list.length==============", list.data.length)
         console.log("1.list: ", list);
         const versionNum = parseInt(text.substring(1));
         const lastVersionNum = versionNum - 1;
@@ -110,9 +111,9 @@ function getSavedDateTime() {
     const savedTime = Date.now();
     const now = new Date(savedTime);
     console.log('now.getDate: ', now.getDate());
-    return 'yyyy/mm/versionComparison'.replace('mm', now.getMonth() + 1)
+    return 'yyyy/mm/dd'.replace('mm', now.getMonth() + 1)
         .replace('yyyy', now.getFullYear())
-        .replace('versionComparison', now.getDate());
+        .replace('dd', now.getDate());
 }
 
 window.onSaveBtnClick = function onSaveBtnClick() {
@@ -153,6 +154,7 @@ window.onSaveBtnClick = function onSaveBtnClick() {
         info.version = `v${requirementChangeCount}.0`;
         axios.post("http://localhost:8086/description", info).then(res => {
             axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
+                console.log("save return list============", list.data.length)
                 let versionRecord = document.getElementById("versionRecord");
                 addBtnForVersionRecord(list, versionRecord, 0);
             });
