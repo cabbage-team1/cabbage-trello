@@ -5,7 +5,6 @@ let info = {
     descriptions: '',
     version: ''
 }
-console.log('Hello World!');
 let requirementChangeCount;
 
 const onCardBtnClick = function (t) {
@@ -18,13 +17,6 @@ const onCardBtnClick = function (t) {
 let inDevListId;
 const getCardButtons = function (t) {
     const context = t.getContext();
-    // t.card('id', 'desc').then(res => {
-    //     console.log('id', res);
-    //     info.cardId = res.id;
-    //     info.descriptions = res.desc;
-    //     info.version = `v0.0`;
-    //     axios.post("http://localhost:8086/description", info).then(() => console.log("已存初始版本0.0"))
-    // });
     t.lists('id', 'name').then(function (lists) {
         lists.forEach(function (list) {
             if (list.name === '高效生产中') {
@@ -33,13 +25,10 @@ const getCardButtons = function (t) {
         });
         if (context.list === inDevListId) {
             t.get(context.card, 'shared', 'originalDesc', '').then(function (res) {
-                console.log('res === \'\': ', res === '');
                 if(res === ''){
                     t.set(context.card, 'shared', {
                         originalDesc: t.card('desc').get('desc'),
-                    }).then(function () {
-                        t.get(context.card, 'shared', 'originalDesc').then(res => console.log('t.get desc after set', res))
-                    })
+                    });
                 }
             });
         }
@@ -66,7 +55,6 @@ const getCardBadges = function (t) {
 const getCardDetailBadges = function (t) {
         return t.get(t.getContext().card, 'shared', 'requirementChangeCount')
             .then(res => {
-                console.log('requirementChangeCount in res: ', res);
                 requirementChangeCount = res ? res : 0;
                 if (requirementChangeCount !== 0) {
                     return [

@@ -16,7 +16,6 @@
     const context = t.getContext();
     let span = null;
     t.get(context.card, 'shared', 'diff').then(function (diff) {
-        console.log('diff in html', diff);
         if(diff === '' || diff === undefined || diff === null){
             document.getElementById("desc").innerHTML = "描述未更改！";
         }
@@ -41,7 +40,6 @@
         display.appendChild(fragment);
     })
     t.get(context.card, 'shared', 'savedTime').then(function (time) {
-        console.log('time in html: ', time);
         const date = document.getElementById('date');
         date.innerHTML = `最后更改时间：${time}`;
     })

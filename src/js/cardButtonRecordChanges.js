@@ -57,7 +57,6 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 }
 
 function onVersionBtnCLick(text) {
-    console.log("0.text: ", text);
     // const savedDateTime = getSavedDateTime();
     axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
         console.log('length of list', list.data.length);
@@ -95,6 +94,12 @@ function onVersionBtnCLick(text) {
             title: 'Description Comparison'
         })
     });
+    return t.modal({
+        url: './versionComparisons.html',
+        height: 500,
+        fullscreen: false,
+        title: 'Description Comparison'
+    })
 }
 
 const getVersionRecord = () => {
@@ -114,7 +119,6 @@ window.onRecordBtnClick = function onRecordBtnClick() {
 function getSavedDateTime() {
     const savedTime = Date.now();
     const now = new Date(savedTime);
-    console.log('now.getDate: ', now.getDate());
     return 'yyyy/mm/dd'.replace('mm', now.getMonth() + 1)
         .replace('yyyy', now.getFullYear())
         .replace('dd', now.getDate());
@@ -124,23 +128,16 @@ window.onSaveBtnClick = function onSaveBtnClick() {
     //trello database 存储与original desc的diff ：86-105
     const Diff = require("diff");
     const savedDateTime = getSavedDateTime();
-    console.log('after formatted savedDateTime: ', savedDateTime);
     let currentDesc;
     t.card('desc').get('desc').then(function (curDesc) {
         currentDesc = curDesc;
-        console.log('let currentDesc: ', currentDesc);
     });
     t.get(context.card, 'shared', 'originalDesc').then(function (lastDesc) {
         diffDescArray = Diff.diffChars(lastDesc.fulfillmentValue, currentDesc);
-        console.log('diff：', diffDescArray);
         t.set(context.card, 'shared', {
             diff: diffDescArray,
             savedTime: savedDateTime
-        }).then(function () {
-            t.get(context.card, 'shared', 'savedTime').then(res => console.log('savedTime: ', res))
-        })
-        t.get(context.card, 'shared', 'originalDesc')
-            .then(res => console.log('previous desc: \n', res))
+        });
     })
     //
     t.set(context.card, 'shared', {requirementChangeCount})
@@ -152,13 +149,11 @@ window.onSaveBtnClick = function onSaveBtnClick() {
             });
 
     t.card('id', 'desc').then(res => {
-        console.log('id', res);
         info.cardId = res.id;
         info.descriptions = res.desc;
         info.version = `v${requirementChangeCount}.0`;
         axios.post("http://localhost:8086/description", info).then(res => {
             axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
-                console.log("save return list============", list.data.length)
                 let versionRecord = document.getElementById("versionRecord");
                 addBtnForVersionRecord(list, versionRecord, 0);
             });
@@ -172,7 +167,6 @@ const showRequirementChangeCount = requirementChangeCount => {
 }
 
 window.onDiffBtnClick = function () {
-    console.log('new page');
     return t.modal({
         url: './lastDescDiff.html',
         height: 500,

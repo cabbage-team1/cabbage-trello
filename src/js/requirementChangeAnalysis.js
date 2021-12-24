@@ -36,19 +36,15 @@ option = {
 t.board('labels').then(res => {
     const _ = require('lodash');
     labelSet = _.filter(res.labels, label => label.name !== '');
-    console.log('labelSet: ', labelSet);
 });
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
-        console.log('cards: ', cards);
         cards.forEach(cardInfo => {
             t.get(cardInfo.id, 'shared', 'requirementChangeCount')
                 .then(requirementChangeCount => {
-                    console.log('requirementChangeCount: ',requirementChangeCount);
                     cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}];
                 })
         });
-        console.log('cardsInfo: ', cardsInfo);
     });
 
 startAnalysis = () => {
@@ -60,7 +56,6 @@ drawHistogram = () => {
     const _ = require('lodash');
     const moment = require('moment');
     let source = [];
-    console.log('cardsInfo: ', cardsInfo);
     for (let i = 0; i < 6; i++) {
         const twoWeeksStart = moment().local().endOf('week').subtract((i + 1) * 14, 'days');
         const twoWeeksEnd = moment().local().endOf('week').subtract(i * 14, 'days');
@@ -68,16 +63,12 @@ drawHistogram = () => {
             const dateLastActivityOfCard = moment(cardInfo.dateLastActivity);
             return twoWeeksEnd.isAfter(dateLastActivityOfCard) && twoWeeksStart.isBefore(dateLastActivityOfCard);
         });
-        console.log('list: ', list);
         const cardCount = list.length;
         let changeCount = 0;
         _.forEach(list, singleCard => {
             const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
             changeCount += singleCount;
         });
-        console.log('twoWeeksStart: ', twoWeeksStart);
-        console.log('twoWeeksEnd: ', twoWeeksEnd);
-        console.log('cardCount and changeCount: ', cardCount, changeCount);
         source = [...source, [`${twoWeeksStart.format('MM/DD')} ~ ${twoWeeksEnd.format('MM/DD')}`, cardCount, changeCount]];
     }
     const legend = ['cycle', 'cards count', 'changes count'];
@@ -128,7 +119,6 @@ generateHistogramOption = source => {
         series: [{type: 'bar'}, {type: 'bar'}]
     };
     histogramOption.dataset.source = source;
-    console.log('source: ', source);
     return histogramOption;
 }
 
