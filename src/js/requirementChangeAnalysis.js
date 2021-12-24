@@ -5,6 +5,7 @@ let dataSet = {};
 const t = window.TrelloPowerUp.iframe();
 
 var echarts = require('echarts');
+const _ = require("lodash");
 var chartDom = document.getElementById('charts');
 var myChart = echarts.init(chartDom);
 var option;
@@ -58,7 +59,7 @@ startAnalysis = () => {
 drawHistogram = () => {
     const _ = require('lodash');
     const moment = require('moment');
-    let source = [['cycle', 'cards count', 'changes count']];
+    let source = [];
     console.log('cardsInfo: ', cardsInfo);
     for (let i = 0; i < 6; i++) {
         const twoWeeksStart = moment().local().endOf('week').subtract((i + 1) * 14, 'days');
@@ -79,14 +80,15 @@ drawHistogram = () => {
         console.log('cardCount and changeCount: ', cardCount, changeCount);
         source = [...source, [`${twoWeeksStart.format('MM/DD')} ~ ${twoWeeksEnd.format('MM/DD')}`, cardCount, changeCount]];
     }
-    source = _.drop(source).reverse();
+    const legend = ['cycle', 'cards count', 'changes count'];
+    source = [legend, ..._.reverse(source)];
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
 }
 
 generateHistogramOption = source => {
     const _ = require('lodash');
-    const labels = _.map(source, data => data[0]);
+    const labels = _.drop(source).map(data => data[0]);
     const histogramOption = {
         color: ['#d3f998', '#59c276'],
         title: {
@@ -126,6 +128,7 @@ generateHistogramOption = source => {
         series: [{type: 'bar'}, {type: 'bar'}]
     };
     histogramOption.dataset.source = source;
+    console.log('source: ', source);
     return histogramOption;
 }
 
