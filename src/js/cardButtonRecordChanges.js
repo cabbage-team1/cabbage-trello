@@ -173,6 +173,6 @@ window.onDiffBtnClick = function () {
         url: './lastDescDiff.html',
         height: 500,
         fullscreen: false,
-        title: 'Diff Description'
+        title: 'Description Comparison'
     })
 }

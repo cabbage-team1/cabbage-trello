@@ -43,7 +43,7 @@
     t.get(context.card, 'shared', 'savedTime').then(function (time) {
         console.log('time in html: ', time);
         const date = document.getElementById('date');
-        date.innerHTML = time;
+        date.innerHTML = `最后更改时间：${time}`;
     })
 </script>
 </body>
