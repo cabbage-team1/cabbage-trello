@@ -1,5 +1,10 @@
 import {getBoardButton} from "./getBoardButton";
-
+import axios from 'axios';
+let info = {
+    cardId: '',
+    descriptions: '',
+    version: ''
+}
 console.log('Hello World!');
 let requirementChangeCount;
 
@@ -13,6 +18,13 @@ const onCardBtnClick = function (t) {
 let inDevListId;
 const getCardButtons = function (t) {
     const context = t.getContext();
+    t.card('id', 'desc').then(res => {
+        console.log('id', res);
+        info.cardId = res.id;
+        info.descriptions = res.desc;
+        info.version = `v0.0`;
+        axios.post("http://localhost:8086/description", info).then(() => console.log("已存初始版本0.0"))
+    });
     t.lists('id', 'name').then(function (lists) {
         lists.forEach(function (list) {
             if (list.name === '高效生产中') {

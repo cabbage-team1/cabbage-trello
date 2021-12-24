@@ -1,11 +1,12 @@
 import axios from 'axios';
+
 const t = window.TrelloPowerUp.iframe();
 
 const context = t.getContext();
 let requirementChangeCount;
 let diffDescArray;
 
-t.get(context.card, 'shared', 'requirementChangeCount',0).then(requirementChangeCountInResponse => {
+t.get(context.card, 'shared', 'requirementChangeCount', 0).then(requirementChangeCountInResponse => {
     requirementChangeCount = requirementChangeCountInResponse;
     showRequirementChangeCount(`Total Changes: ${requirementChangeCount}`);
 });
@@ -25,15 +26,17 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
     for (let i = list.data.length - 1 - curPage * 5; i >= list.data.length - curPage * 5 - 5 && i >= 0; i--) {
         const button = document.createElement("button");
         button.textContent = list.data[i].version;
-        button.addEventListener('click', function () {onVersionBtnCLick(button.textContent)});
+        button.addEventListener('click', function () {
+            onVersionBtnCLick(button.textContent)
+        });
         versionRecord.appendChild(button);
     }
 
-    if(list.data.length > 5 || curPage !== 0) {
+    if (list.data.length > 5 || curPage !== 0) {
         const prevPage = document.createElement("button");
         prevPage.textContent = "<";
-        prevPage.onclick = function() {
-            if(curPage > 0) {
+        prevPage.onclick = function () {
+            if (curPage > 0) {
                 curPage = curPage - 1;
                 addBtnForVersionRecord(list, versionRecord, curPage);
             }
@@ -42,9 +45,8 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 
         const nextPage = document.createElement("button");
         nextPage.textContent = ">";
-        nextPage.onclick = function() {
-            if(curPage <= list.data.length / 5)
-            {
+        nextPage.onclick = function () {
+            if (curPage <= list.data.length / 5) {
                 curPage = curPage + 1;
                 addBtnForVersionRecord(list, versionRecord, curPage);
             }
@@ -54,7 +56,34 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 }
 
 function onVersionBtnCLick(text) {
-    console.log('text', text);
+    const savedDateTime = getSavedDateTime();
+    axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
+        const versionNum = parseInt(text.substring(1));
+        const lastVersionNum = versionNum - 1;
+        const lastVersionText = `v${lastVersionNum}.0`;
+        let currentData;
+        let oldData;
+        list.data.forEach(item => {
+            if (item.version === text) {
+                currentData = item;
+            }
+            if (item.version === lastVersionText) {
+                oldData = item;
+            }
+        })
+        const diff = Diff.diffChars(oldData.descriptions, currentData.descriptions);
+        t.set(context.card, 'shared', {
+            versionDiff: diff,
+            savedTime: savedDateTime
+        }).then(() => console.log('set diff version'))
+    });
+    console.log('version page:', text);
+    return t.modal({
+        url: './versionComparisons.html',
+        height: 500,
+        fullscreen: false,
+        title: 'Description Comparison'
+    })
 }
 
 const getVersionRecord = () => {
@@ -75,9 +104,9 @@ function getSavedDateTime() {
     const savedTime = Date.now();
     const now = new Date(savedTime);
     console.log('now.getDate: ', now.getDate());
-    return 'yyyy/mm/dd'.replace('mm', now.getMonth() + 1)
+    return 'yyyy/mm/versionComparison'.replace('mm', now.getMonth() + 1)
         .replace('yyyy', now.getFullYear())
-        .replace('dd', now.getDate());
+        .replace('versionComparison', now.getDate());
 }
 
 window.onSaveBtnClick = function onSaveBtnClick() {
@@ -117,7 +146,6 @@ window.onSaveBtnClick = function onSaveBtnClick() {
         info.descriptions = res.desc;
         info.version = `v${requirementChangeCount}.0`;
         axios.post("http://localhost:8086/description", info).then(res => {
-
             axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
                 let versionRecord = document.getElementById("versionRecord");
                 addBtnForVersionRecord(list, versionRecord, 0);

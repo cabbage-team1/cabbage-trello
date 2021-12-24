@@ -15,14 +15,14 @@
     const t = window.TrelloPowerUp.iframe();
     const context = t.getContext();
     let span = null;
-    t.get(context.card, 'shared', 'diff').then(function (diff) {
-        console.log('diff in html', diff);
-        if(diff === '' || diff === undefined || diff === null){
-            document.getElementById("display").innerHTML = "描述未更改！";
-        }
+    t.get(context.card, 'shared', 'versionDiff').then(function (versionDiff) {
+        console.log('versionDiff in html', versionDiff);
+        // if(diff === '' || diff === undefined || diff === null){
+        //     document.getElementById("display").innerHTML = "描述未更改！";
+        // }
         const display = document.getElementById('display');
         const fragment = document.createDocumentFragment();
-        diff.forEach((part) => {
+        versionDiff.forEach((part) => {
             if (part.added) {
                 color = 'green';
                 span = document.createElement('ins');
