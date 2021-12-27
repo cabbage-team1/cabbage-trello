@@ -58,39 +58,41 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 function onVersionBtnCLick(text) {
     console.log("0.text: ", text);
     // const savedDateTime = getSavedDateTime();
-    // axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
-    //     console.log("list.length==============", list.data.length)
-    //     console.log("1.list: ", list);
-    //     const versionNum = parseInt(text.substring(1));
-    //     const lastVersionNum = versionNum - 1;
-    //     const lastVersionText = `v${lastVersionNum}.0`;
-    //     console.log("2.lastVersionNum: ", lastVersionNum);
-    //     console.log("3.lastVersionText: ", lastVersionText);
-    //     let currentData;
-    //     let oldData;
-    //     list.data.forEach(item => {
-    //         if (item.version === text) {
-    //             currentData = item;
-    //         }
-    //         if (item.version === lastVersionText) {
-    //             oldData = item;
-    //         }
-    //     })
-    //     console.log("4.currentData: ", currentData);
-    //     console.log("5.oldData: ", oldData);
-    //     const diff = Diff.diffChars(oldData.descriptions, currentData.descriptions);
-    //     console.log("6.versionDiff: ", diff);
-    //     t.set(context.card, 'shared', {
-    //         versionDiff: diff,
-    //         savedTime: savedDateTime
-    //     }).then(() => console.log('7.set diff version'))
-    // });
-    return t.modal({
-        url: './versionComparisons.html',
-        height: 500,
-        fullscreen: false,
-        title: 'Description Comparison'
-    })
+    axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
+        console.log('length of list', list.data.length);
+
+        const versionNum = parseInt(text.substring(1));
+        const lastVersionNum = versionNum - 1;
+        const lastVersionText = `v${lastVersionNum}.0`;
+        console.log("2.lastVersionNum: ", lastVersionNum);
+        console.log("3.lastVersionText: ", lastVersionText);
+
+        let currentData;
+        let oldData;
+        list.data.forEach(item => {
+            if (item.version === text) {
+                currentData = item;
+            }
+            if (item.version === lastVersionText) {
+                oldData = item;
+            }
+        });
+        console.log("4.currentData: ", currentData);
+        console.log("5.oldData: ", oldData);
+
+        const diff = Diff.diffChars(oldData.descriptions, currentData.descriptions);
+        console.log("6.versionDiff: ", diff);
+
+        // t.set(context.card, 'shared', {
+        //             savedTime: savedDateTime
+        //         }).then(() => console.log('7.set diff version'));
+        return t.modal({
+            url: './versionComparisons.html',
+            height: 500,
+            fullscreen: false,
+            title: 'Description Comparison'
+        })
+    });
 }
 
 const getVersionRecord = () => {
