@@ -89,6 +89,7 @@ function onVersionBtnCLick(text) {
         //         }).then(() => console.log('7.set diff version'));
         return t.modal({
             url: './versionComparisons.html',
+            args: {text: diff},
             height: 500,
             fullscreen: false,
             title: 'Description Comparison'
