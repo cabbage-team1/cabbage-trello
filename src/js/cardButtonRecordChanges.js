@@ -1,4 +1,5 @@
 import axios from 'axios';
+const Diff = require('diff');
 const t = window.TrelloPowerUp.iframe();
 
 const context = t.getContext();
