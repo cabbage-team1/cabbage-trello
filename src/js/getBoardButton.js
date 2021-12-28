@@ -5,8 +5,8 @@ export function getBoardButton(t, opts) {
         condition: 'always',
         callback: function (t, opt) {
             t.modal({
-                title: 'Requirement Change Analysis',
-                url: './requirementChangeAnalysis.html',
+                title: 'Requirement Changes Analysis',
+                url: './requirementChangesAnalysis.html',
                 fullscreen: true,
             })
         }

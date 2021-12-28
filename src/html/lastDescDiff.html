@@ -16,7 +16,7 @@
     const context = t.getContext();
     let span = null;
     t.get(context.card, 'shared', 'diff').then(function (diff) {
-        if(diff === '' || diff === undefined || diff === null){
+        if (diff === '' || diff === undefined || diff === null) {
             document.getElementById("desc").innerHTML = "描述未更改！";
         }
         const display = document.getElementById('display');
