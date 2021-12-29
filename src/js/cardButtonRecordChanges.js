@@ -23,35 +23,41 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
     document.body.appendChild(versionRecord);
     versionRecord.id = "versionRecord";
 
-    for (let i = list.data.length - 1 - curPage * 5; i >= list.data.length - curPage * 5 - 5 && i >= 0; i--) {
-        if (list.data[i].version !== 'v0.0') {
-            const button = document.createElement("button");
-            button.textContent = list.data[i].version;
-            button.addEventListener('click', function () {
-                onVersionBtnCLick(button.textContent)
-            });
-            versionRecord.appendChild(button);
-        }
+    const listWithoutV0 = list.data.filter(item => item.version !== 'v0.0');
+    for (let i = listWithoutV0.length - 1 - curPage * 5; i >= listWithoutV0.length - curPage * 5 - 5 && i >= 0; i--) {
+        const button = document.createElement("button");
+        button.textContent = listWithoutV0[i].version;
+        button.addEventListener('click', function () {
+            onVersionBtnCLick(button.textContent)
+        });
+        versionRecord.appendChild(button);
     }
 
-    if (list.data.length > 5 || curPage !== 0) {
+    if (listWithoutV0.length > 5 || curPage !== 0) {
         const prevPage = document.createElement("button");
         prevPage.textContent = "<";
         prevPage.onclick = function () {
-            if (curPage > 0) {
-                curPage = curPage - 1;
-                addBtnForVersionRecord(list, versionRecord, curPage);
+            if(curPage <= 0) {
+                prevPage.disabled = true;
             }
+            else {
+                curPage = curPage - 1;
+            }
+            addBtnForVersionRecord(list, versionRecord, curPage);
         }
         versionRecord.appendChild(prevPage);
 
         const nextPage = document.createElement("button");
         nextPage.textContent = ">";
         nextPage.onclick = function () {
-            if (curPage <= list.data.length / 5) {
-                curPage = curPage + 1;
-                addBtnForVersionRecord(list, versionRecord, curPage);
+            if(curPage >= listWithoutV0.length / 5 - 1)
+            {
+                nextPage.disabled = true;
             }
+            else {
+                curPage = curPage + 1;
+            }
+            addBtnForVersionRecord(list, versionRecord, curPage);
         }
         versionRecord.appendChild(nextPage);
     }
