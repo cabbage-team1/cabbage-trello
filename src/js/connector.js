@@ -14,7 +14,6 @@ const onCardBtnClick = function (t) {
     });
 };
 
-let inDevListId;
 const getCardButtons = function (t) {
     const context = t.getContext();
     t.get(context.card, 'shared', 'requirementChangeCount', 0).then(function (res) {
@@ -28,22 +27,7 @@ const getCardButtons = function (t) {
             });
         }
     })
-    t.lists('id', 'name').then(function (lists) {
-        lists.forEach(function (list) {
-            if (list.name === '高效生产中') {
-                inDevListId = list.id;
-            }
-        });
-        if (context.list === inDevListId) {
-            t.get(context.card, 'shared', 'originalDesc', '').then(function (res) {
-                if(res === ''){
-                    t.set(context.card, 'shared', {
-                        originalDesc: t.card('desc').get('desc'),
-                    });
-                }
-            });
-        }
-    })
+
     return [{
         text: 'Requirement Change',
         icon: 'https://uxwing.com/wp-content/themes/uxwing/download/19-e-commerce-currency-shopping/change-exchange.png',
