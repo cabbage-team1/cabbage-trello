@@ -37,17 +37,44 @@ t.board('labels').then(res => {
     const _ = require('lodash');
     labelSet = _.filter(res.labels, label => label.name !== '');
 });
+let itemsProcessed = 0;
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
-        cards.forEach(cardInfo => {
+        cards.forEach((cardInfo, index, array) => {
             t.get(cardInfo.id, 'shared', 'requirementChangeCount')
                 .then(requirementChangeCount => {
                     cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}];
+                })
+                .then(() => {
+                    itemsProcessed++;
+                    if (itemsProcessed === array.length) {
+                        drawPieChart();
+                        drawHistogram();
+                    }
                 });
         });
-        drawPieChart();
-        drawHistogram();
     });
+
+onConfirm = () => {
+    const _ = require('lodash');
+    const moment = require('moment');
+    const start_data_value = document.getElementById("start-date").value;
+    const end_data_value = document.getElementById("end-date").value;
+    const period_value = document.getElementById("period").value;
+    if (!start_data_value || !end_data_value || !period_value) {
+        window.prompt("参数输入不完整，请补全参数");
+        return;
+    }
+    if (!moment(start_data_value).isBefore(moment(end_data_value))) {
+        window.prompt("开始日期晚于结束日期，请补全参数");
+        return;
+    }
+    if (period_value <= 0) {
+        window.prompt("周期输入有误");
+        return;
+    }
+    drawHistogram(start_data_value, end_data_value, period_value);
+}
 
 drawHistogram = (start_data_value, end_data_value, period_value) => {
     const _ = require('lodash');
@@ -74,27 +101,6 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
     }
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
-}
-
-onConfirm = () => {
-    const _ = require('lodash');
-    const moment = require('moment');
-    const start_data_value = document.getElementById("start-date").value;
-    const end_data_value = document.getElementById("end-date").value;
-    const period_value = document.getElementById("period").value;
-    if (!start_data_value || !end_data_value || !period_value) {
-        window.prompt("参数输入不完整，请补全参数");
-        return;
-    }
-    if (!moment(start_data_value).isBefore(moment(end_data_value))) {
-        window.prompt("开始日期晚于结束日期，请补全参数");
-        return;
-    }
-    if (period_value <= 0) {
-        window.prompt("周期输入有误");
-        return;
-    }
-    drawHistogram(start_data_value, end_data_value, period_value);
 }
 
 generateHistogramOption = source => {
@@ -141,13 +147,16 @@ generateHistogramOption = source => {
 
 drawPieChart = () => {
     const _ = require('lodash');
+    console.log('cardsInfo: ', cardsInfo);
     _.forEach(labelSet, label => {
         const list = _.filter(cardsInfo, cardInfo => {
             return _.find(cardInfo.labels, singleLabel => singleLabel.name === label.name)
         });
         dataSet = {...dataSet, [label.name]: list};
     });
+    console.log('dataSet: ', dataSet);
     const data = calculateRequirementChangeCountAndCardCountAsSource(dataSet);
+    console.log('pie data: ', data);
     option = generatePieChartOption(data);
     myChart.setOption(option);
 }
