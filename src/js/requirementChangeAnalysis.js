@@ -1,17 +1,24 @@
 let cardsInfo = [];
 let labelSet = [];
-let dataSet = {};
+let dataSetByLabel = {};
+let dataSetByList = {};
+let listsInfo = {};
 
 const t = window.TrelloPowerUp.iframe();
-
 var echarts = require('echarts');
 const _ = require("lodash");
-var chartDom = document.getElementById('charts');
-var myChart = echarts.init(chartDom);
-var option;
+
+var chartByLabelDom = document.getElementById('charts');
+var chartByLabel = echarts.init(chartByLabelDom);
+var optionByLabel;
+
+var chartByListDom = document.getElementById('charts-by-list');
+var chartByList = echarts.init(chartByListDom);
+var optionByList;
+
 var histogramDom = document.getElementById('histogram');
 var myHistogram = echarts.init(histogramDom);
-option = {
+optionByLabel = {
     tooltip: {
         trigger: 'axis',
         axisPointer: {
@@ -38,6 +45,9 @@ t.board('labels').then(res => {
     labelSet = _.filter(res.labels, label => label.name !== '');
 });
 let itemsProcessed = 0;
+t.lists('all').then(lists => {
+    listsInfo = lists;
+});
 t.cards('id', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
         cards.forEach((cardInfo, index, array) => {
@@ -71,9 +81,7 @@ onConfirm = () => {
     }
     if (period_value <= 0) {
         window.confirm("周期输入有误");
-        return;
     }
-    drawHistogram(start_data_value, end_data_value, period_value);
 }
 
 drawHistogram = (start_data_value, end_data_value, period_value) => {
@@ -83,13 +91,13 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
     const period = period_value ? _.toNumber(period_value) : 14;
     const startDate = _.isEmpty(start_data_value) ? moment().local().endOf('week').subtract(14 * 6, 'days') : moment(start_data_value);
     const endDate = _.isEmpty(end_data_value) ? moment().local().endOf('week') : moment(end_data_value);
-    let periodEndPivot = endDate.endOf('week');
-    while (startDate.isBefore(periodEndPivot)) {
-        const periodEnd = _.cloneDeep(periodEndPivot);
-        const periodStart = periodEndPivot.subtract(period, 'days');
+    let periodStartPivot = startDate;
+    while (endDate.isAfter(periodStartPivot)) {
+        const periodStart = _.cloneDeep(periodStartPivot);
+        const periodEnd = periodStartPivot.add(period, 'days');
         const list = _.filter(cardsInfo, cardInfo => {
             const dateLastActivityOfCard = moment(cardInfo.dateLastActivity);
-            return periodEnd.isAfter(dateLastActivityOfCard) && periodStart.isBefore(dateLastActivityOfCard);
+            return periodStart.isBefore(dateLastActivityOfCard) && periodEnd.isAfter(dateLastActivityOfCard) && _.get(cardInfo, 'requirementChangeCount');
         });
         const cardCount = list.length;
         let changeCount = 0;
@@ -97,24 +105,18 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
             const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
             changeCount += singleCount;
         });
-        source = [...source, [`${periodStart.format('MM/DD')} ~ ${periodEnd.format('MM/DD')}`, cardCount, changeCount]];
+        source = [...source, [`${periodStart.format('yyyy/MM/DD')}~${periodEnd.format('yyyy/MM/DD')}`, cardCount, changeCount]];
     }
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
 }
-
 generateHistogramOption = source => {
-    const _ = require('lodash');
-    const labels = _.drop(source).map(data => data[0]);
     const histogramOption = {
         color: ['#d3f998', '#59c276'],
         legend: {
             show: false
         },
         tooltip: {},
-        grid: {
-            top: '20%'
-        },
         dataset: {
             source: [
                 ['cycle', 'cards count', 'changes count'],
@@ -124,14 +126,12 @@ generateHistogramOption = source => {
         },
         xAxis: {
             type: 'category',
-            data: labels,
             axisTick: {},
             axisLabel: {
                 show: true,
             }
         },
         yAxis: {},
-        series: [{type: 'bar'}, {type: 'bar'}],
         dataZoom: [
             {
                 type: 'inside'
@@ -140,6 +140,7 @@ generateHistogramOption = source => {
                 type: 'slider'
             }
         ],
+        series: [{type: 'bar'}, {type: 'bar'}]
     };
     histogramOption.dataset.source = source;
     return histogramOption;
@@ -147,31 +148,33 @@ generateHistogramOption = source => {
 
 drawPieChart = () => {
     const _ = require('lodash');
-    console.log('cardsInfo: ', cardsInfo);
     _.forEach(labelSet, label => {
         const list = _.filter(cardsInfo, cardInfo => {
             return _.find(cardInfo.labels, singleLabel => singleLabel.name === label.name)
         });
-        dataSet = {...dataSet, [label.name]: list};
+        dataSetByLabel = {...dataSetByLabel, [label.name]: list};
     });
-    console.log('dataSet: ', dataSet);
-    const data = calculateRequirementChangeCountAndCardCountAsSource(dataSet);
-    console.log('pie data: ', data);
-    option = generatePieChartOption(data);
-    myChart.setOption(option);
+    _.forEach(listsInfo, listInfo => {
+        const list = _.filter(cardsInfo, cardInfo => cardInfo.idList === listInfo.id);
+        dataSetByList = {...dataSetByList, [listInfo.name]: list};
+    });
+    const dataByLabel = calculateRequirementChangeCountAndCardCountAsSource(dataSetByLabel);
+    optionByLabel = generatePieChartOption(dataByLabel);
+    chartByLabel.setOption(optionByLabel);
+
+    const dataByList = calculateRequirementChangeCountAndCardCountAsSource(dataSetByList);
+    optionByList = generatePieChartOption(dataByList);
+    chartByList.setOption(optionByList);
 }
 
 generatePieChartOption = data => {
     const pieChartOption = {
-        legend: {
-            right: '10%',
-            top: '7%'
-        },
-        grid: {
-            top: '20%'
-        },
         tooltip: {
             trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
         },
         series: [
             {
