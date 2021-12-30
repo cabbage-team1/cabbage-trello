@@ -1,12 +1,15 @@
 table {
     border-collapse: collapse;
-    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
-    margin: auto;
+    margin: 25px auto 80px;
 }
 
 caption {
     font-size: larger;
     margin: 1em auto;
+}
+
+tr {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
 }
 
 th, td {
@@ -19,7 +22,6 @@ th, td {
     text-align: left;
 }
 
-a:hover
-{
-    background-color:yellow;
+a:hover {
+    background-color: yellow;
 }
