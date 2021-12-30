@@ -43,7 +43,7 @@ t.cards('id', 'labels', 'name', 'dateLastActivity')
             t.get(cardInfo.id, 'shared', 'requirementChangeCount')
                 .then(requirementChangeCount => {
                     cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}];
-                })
+                });
         });
         drawPieChart();
         drawHistogram();
@@ -57,9 +57,6 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
     const startDate = _.isEmpty(start_data_value) ? moment().local().endOf('week').subtract(14 * 6, 'days') : moment(start_data_value);
     const endDate = _.isEmpty(end_data_value) ? moment().local().endOf('week') : moment(end_data_value);
     let periodEndPivot = endDate.endOf('week');
-    console.log('period: ', period);
-    console.log('startDate: ', startDate.format('yyyy/MM/DD').toString());
-    console.log('endDate: ', endDate.format('yyyy/MM/DD').toString());
     while (startDate.isBefore(periodEndPivot)) {
         const periodEnd = _.cloneDeep(periodEndPivot);
         const periodStart = periodEndPivot.subtract(period, 'days');
@@ -73,12 +70,8 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
             const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
             changeCount += singleCount;
         });
-        console.log('periodStart: ', periodStart.format('yyyy/MM/DD').toString());
-        console.log('periodEnd: ', periodEnd.format('yyyy/MM/DD').toString());
-        console.log('cardCount and changeCount: ', cardCount, changeCount);
         source = [...source, [`${periodStart.format('MM/DD')} ~ ${periodEnd.format('MM/DD')}`, cardCount, changeCount]];
     }
-    console.log('source: ', source);
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
 }
@@ -89,7 +82,6 @@ onConfirm = () => {
     const start_data_value = document.getElementById("start-date").value;
     const end_data_value = document.getElementById("end-date").value;
     const period_value = document.getElementById("period").value;
-    console.log('input params: ', start_data_value, end_data_value, period_value);
     if (!start_data_value || !end_data_value || !period_value) {
         window.prompt("参数输入不完整，请补全参数");
         return;
@@ -113,6 +105,7 @@ generateHistogramOption = source => {
         legend: {
             show: false
         },
+        tooltip: {},
         grid: {
             top: '20%'
         },
@@ -161,13 +154,6 @@ drawPieChart = () => {
 
 generatePieChartOption = data => {
     const pieChartOption = {
-        title: {
-            text: 'Total Number of Requirement Changes by Labels',
-            x: 'center',
-            textStyle: {
-                fontSize: 30
-            }
-        },
         legend: {
             right: '10%',
             top: '7%'
