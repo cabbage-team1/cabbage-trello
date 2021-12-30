@@ -8,55 +8,57 @@
 <body>
 <div class="container">
     <div class="pies-container">
-        <div class="single-pie" style="margin-right: 5px; background-color: #dddddd; border-radius: 8px;">
+        <div class="single-pie" style="margin-right: 10px; background-color: #eeeeee; border-radius: 18px;">
             <div class="title-area" style="width: 600px; padding: 40px 0 0 0;">Total Requirement Changes by Labels</div>
             <div id="charts" style="width:600px; height: 500px; padding: 40px 0 0 0;">its for pie chart</div>
         </div>
-        <div class="single-pie" style="margin-left: 5px; background-color: #dddddd; border-radius: 8px;">
+        <div class="single-pie" style="margin-left: 10px; background-color: #eeeeee; border-radius: 18px;">
             <div class="title-area" style="width: 600px; padding: 40px 0 0 0;">Total Requirement Changes by Lists</div>
             <div id="charts-by-list" style="width:600px; height: 500px; padding: 40px 0 0 0;">its for pie chart</div>
         </div>
     </div>
-    <div id="histogram-desc" style="width:1000px; height: 260px; margin: 40px 0 0 0;">
-        <div class="title-area" style="font-size: 48px;">Requirement Changes Statistics</div>
-        <div class="description-area">
-            <div class="text-area">
-                <div>This chart can display the total number of requirement changes and the total number of cards in a
-                    certain period. You can view the statistics and comparison results in different time periods by
-                    adjusting the date and period.
+    <div style="margin-top: 20px;background-color: #eeeeee; border-radius: 18px;">
+        <div id="histogram-desc" style="width:1000px; height: 260px; margin: 40px 0 0 0;">
+            <div class="title-area" style="font-size: 48px;">Requirement Changes Statistics</div>
+            <div class="description-area">
+                <div class="text-area">
+                    <div>This chart can display the total number of requirement changes and the total number of cards in a
+                        certain period. You can view the statistics and comparison results in different time periods by
+                        adjusting the date and period.
+                    </div>
+                </div>
+                <div class="legend-area">
+                    <div class="legend-block">
+                        <div style="height: 15px; width: 15px; border: 3px; background-color: #d3f998;"></div>
+                        <div style="width: 200px; padding-left: 5px">card numbers</div>
+                    </div>
+                    <div class="legend-block">
+                        <div style="height: 15px; width: 15px; border: 3px; background-color: #59c276;"></div>
+                        <div style="width: 200px; padding-left: 5px">requirement changes times</div>
+                    </div>
                 </div>
             </div>
-            <div class="legend-area">
-                <div class="legend-block">
-                    <div style="height: 15px; width: 15px; border: 3px; background-color: #d3f998;"></div>
-                    <div style="width: 200px; padding-left: 5px">card numbers</div>
+            <div class="param-setting-area">
+                <div class="param-setting-area-block" style="padding: 0 0 0 15px">
+                    <label class="param-setting-area-block-text" for="start-date">Start Time:</label>
+                    <input class="param-setting-area-data-picker-block" id="start-date" type="date">
                 </div>
-                <div class="legend-block">
-                    <div style="height: 15px; width: 15px; border: 3px; background-color: #59c276;"></div>
-                    <div style="width: 200px; padding-left: 5px">requirement changes times</div>
+                <div class="param-setting-area-block">
+                    <label class="param-setting-area-block-text" for="end-date">End Time:</label>
+                    <input class="param-setting-area-data-picker-block" id="end-date" type="date">
+                </div>
+                <div class="param-setting-area-block">
+                    <label class="param-setting-area-block-text" for="period">Period:</label>
+                    <input onkeyup="this.value=this.value.replace(/\D/g,'')" class="param-setting-area-data-picker-block"
+                           id="period" type="text" placeholder="请输入天数">
+                </div>
+                <div class="param-setting-area-block" style="padding: 0 0 0 15px;">
+                    <button onclick="onConfirm()">confirm</button>
                 </div>
             </div>
         </div>
-        <div class="param-setting-area">
-            <div class="param-setting-area-block" style="padding: 0 0 0 15px">
-                <label class="param-setting-area-block-text" for="start-date">Start Time:</label>
-                <input class="param-setting-area-data-picker-block" id="start-date" type="date">
-            </div>
-            <div class="param-setting-area-block">
-                <label class="param-setting-area-block-text" for="end-date">End Time:</label>
-                <input class="param-setting-area-data-picker-block" id="end-date" type="date">
-            </div>
-            <div class="param-setting-area-block">
-                <label class="param-setting-area-block-text" for="period">Period:</label>
-                <input onkeyup="this.value=this.value.replace(/\D/g,'')" class="param-setting-area-data-picker-block"
-                       id="period" type="text" placeholder="请输入天数">
-            </div>
-            <div class="param-setting-area-block" style="padding: 0 0 0 15px;">
-                <button onclick="onConfirm()">confirm</button>
-            </div>
-        </div>
+        <div id="histogram" style="width:1000px; height: 600px; margin: 20px 0 0 0;">its for histogram</div>
     </div>
-    <div id="histogram" style="width:1000px; height: 600px; margin: 20px 0 0 0;">its for histogram</div>
     <table class="table" id="table">
         <caption style="justify-content: center;font-size: 38px;">Story List</caption>
         <tr>
