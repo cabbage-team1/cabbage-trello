@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export function getBoardButton(t, opts) {
     let cardVersionRecordInfo = [];
     t.cards('id', 'name', 'labels').then(cardList => {
@@ -6,7 +8,7 @@ export function getBoardButton(t, opts) {
             let lastTime = '';
             let versionList = [];
             axios.get(`http://localhost:8086/description/${card.id}`).then(function (res) {
-                // console.log("1.res: ", res);
+                console.log("1.res: ", res);
                 if (res.data.length > 1) {
                     res.data.forEach(version => {
                         if (version.id > maxId) {
@@ -45,6 +47,9 @@ export function getBoardButton(t, opts) {
             t.modal({
                 title: 'Requirement Changes Lists',
                 url: './requirementChangesLists.html',
+                args: {
+                    cardsVersionRecordInfo: cardVersionRecordInfo
+                },
                 fullscreen: true,
             })
         }
