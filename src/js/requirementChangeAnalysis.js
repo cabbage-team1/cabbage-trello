@@ -62,15 +62,15 @@ onConfirm = () => {
     const end_data_value = document.getElementById("end-date").value;
     const period_value = document.getElementById("period").value;
     if (!start_data_value || !end_data_value || !period_value) {
-        window.prompt("参数输入不完整，请补全参数");
+        window.confirm("参数输入不完整，请补全参数");
         return;
     }
     if (!moment(start_data_value).isBefore(moment(end_data_value))) {
-        window.prompt("开始日期晚于结束日期，请补全参数");
+        window.confirm("开始日期晚于结束日期，请补全参数");
         return;
     }
     if (period_value <= 0) {
-        window.prompt("周期输入有误");
+        window.confirm("周期输入有误");
         return;
     }
     drawHistogram(start_data_value, end_data_value, period_value);
