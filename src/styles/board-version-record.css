@@ -1,7 +1,7 @@
 table {
     border-collapse: collapse;
     font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Noto Sans, Ubuntu, Droid Sans, Helvetica Neue, sans-serif;
-    margin-left: 220px;
+    margin: auto;
 }
 
 caption {
