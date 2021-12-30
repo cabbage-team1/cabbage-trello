@@ -1,0 +1,72 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.histogram-desc {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.title-area {
+    display: flex;
+    font-size: 38px;
+    justify-content: center;
+}
+
+.description-area {
+    display: flex;
+    flex-direction: row;
+    margin: 20px 0 0 0;
+}
+
+.text-area {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+    align-content: flex-start;
+    padding: 0 0 0 15px;
+}
+
+.legend-area {
+    display: flex;
+    flex-direction: column;
+    flex: 2;
+    justify-content: flex-start;
+    align-items: flex-end;
+    padding: 5px 15px 0 0;
+}
+
+.legend-block {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 0 0 0;
+}
+
+.param-setting-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    padding: 35px 0 0 0;
+}
+
+.param-setting-area-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+    padding: 0 0 0 25px;
+}
+
+.param-setting-area-block-text {
+    display: flex;
+    align-items: center;
+}
+
+.param-setting-area-data-picker-block {
+    margin: 0 0 0 7px;
+}
