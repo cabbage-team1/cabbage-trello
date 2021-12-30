@@ -45,23 +45,27 @@ t.cards('id', 'labels', 'name', 'dateLastActivity')
                     cardsInfo = [...cardsInfo, {...cardInfo, requirementChangeCount}];
                 })
         });
+        drawPieChart();
+        drawHistogram();
     });
 
-startAnalysis = () => {
-    drawPieChart();
-    drawHistogram();
-}
-
-drawHistogram = () => {
+drawHistogram = (start_data_value, end_data_value, period_value) => {
     const _ = require('lodash');
     const moment = require('moment');
-    let source = [];
-    for (let i = 0; i < 6; i++) {
-        const twoWeeksStart = moment().local().endOf('week').subtract((i + 1) * 14, 'days');
-        const twoWeeksEnd = moment().local().endOf('week').subtract(i * 14, 'days');
+    let source = [['cycle', 'cards count', 'changes count']];
+    const period = period_value ? _.toNumber(period_value) : 14;
+    const startDate = _.isEmpty(start_data_value) ? moment().local().endOf('week').subtract(14 * 6, 'days') : moment(start_data_value);
+    const endDate = _.isEmpty(end_data_value) ? moment().local().endOf('week') : moment(end_data_value);
+    let periodEndPivot = endDate.endOf('week');
+    console.log('period: ', period);
+    console.log('startDate: ', startDate.format('yyyy/MM/DD').toString());
+    console.log('endDate: ', endDate.format('yyyy/MM/DD').toString());
+    while (startDate.isBefore(periodEndPivot)) {
+        const periodEnd = _.cloneDeep(periodEndPivot);
+        const periodStart = periodEndPivot.subtract(period, 'days');
         const list = _.filter(cardsInfo, cardInfo => {
             const dateLastActivityOfCard = moment(cardInfo.dateLastActivity);
-            return twoWeeksEnd.isAfter(dateLastActivityOfCard) && twoWeeksStart.isBefore(dateLastActivityOfCard);
+            return periodEnd.isAfter(dateLastActivityOfCard) && periodStart.isBefore(dateLastActivityOfCard);
         });
         const cardCount = list.length;
         let changeCount = 0;
@@ -69,12 +73,36 @@ drawHistogram = () => {
             const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
             changeCount += singleCount;
         });
-        source = [...source, [`${twoWeeksStart.format('MM/DD')} ~ ${twoWeeksEnd.format('MM/DD')}`, cardCount, changeCount]];
+        console.log('periodStart: ', periodStart.format('yyyy/MM/DD').toString());
+        console.log('periodEnd: ', periodEnd.format('yyyy/MM/DD').toString());
+        console.log('cardCount and changeCount: ', cardCount, changeCount);
+        source = [...source, [`${periodStart.format('MM/DD')} ~ ${periodEnd.format('MM/DD')}`, cardCount, changeCount]];
     }
-    const legend = ['cycle', 'cards count', 'changes count'];
-    source = [legend, ..._.reverse(source)];
+    console.log('source: ', source);
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
+}
+
+onConfirm = () => {
+    const _ = require('lodash');
+    const moment = require('moment');
+    const start_data_value = document.getElementById("start-date").value;
+    const end_data_value = document.getElementById("end-date").value;
+    const period_value = document.getElementById("period").value;
+    console.log('input params: ', start_data_value, end_data_value, period_value);
+    if (!start_data_value || !end_data_value || !period_value) {
+        window.prompt("参数输入不完整，请补全参数");
+        return;
+    }
+    if (!moment(start_data_value).isBefore(moment(end_data_value))) {
+        window.prompt("开始日期晚于结束日期，请补全参数");
+        return;
+    }
+    if (period_value <= 0) {
+        window.prompt("周期输入有误");
+        return;
+    }
+    drawHistogram(start_data_value, end_data_value, period_value);
 }
 
 generateHistogramOption = source => {
@@ -82,16 +110,8 @@ generateHistogramOption = source => {
     const labels = _.drop(source).map(data => data[0]);
     const histogramOption = {
         color: ['#d3f998', '#59c276'],
-        title: {
-            text: 'Requirement Changes Statistics',
-            x: 'center',
-            textStyle: {
-                fontSize: 30
-            }
-        },
         legend: {
-            right: '10%',
-            top: '10%'
+            show: false
         },
         grid: {
             top: '20%'
@@ -106,17 +126,21 @@ generateHistogramOption = source => {
         xAxis: {
             type: 'category',
             data: labels,
-            axisTick: {
-                alignWithLabel: true,
-                interval: '0'
-            },
+            axisTick: {},
             axisLabel: {
                 show: true,
-                interval: '0'
             }
         },
         yAxis: {},
-        series: [{type: 'bar'}, {type: 'bar'}]
+        series: [{type: 'bar'}, {type: 'bar'}],
+        dataZoom: [
+            {
+                type: 'inside'
+            },
+            {
+                type: 'slider'
+            }
+        ],
     };
     histogramOption.dataset.source = source;
     return histogramOption;
