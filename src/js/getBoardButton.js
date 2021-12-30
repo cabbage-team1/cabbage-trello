@@ -37,6 +37,9 @@ export function getBoardButton(t, opts) {
                 title: 'Requirement Changes Analysis',
                 url: './requirementChangesAnalysis.html',
                 fullscreen: true,
+                args: {
+                    cardsVersionRecordInfo: cardVersionRecordInfo
+                },
             })
         }
     },{
