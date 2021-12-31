@@ -154,15 +154,19 @@ drawPieChart = () => {
         });
         dataSetByLabel = {...dataSetByLabel, [label.name]: list};
     });
-    _.forEach(listsInfo, listInfo => {
-        const list = _.filter(cardsInfo, cardInfo => cardInfo.idList === listInfo.id);
-        dataSetByList = {...dataSetByList, [listInfo.name]: list};
-    });
     const dataByLabel = calculateRequirementChangeCountAndCardCountAsSource(dataSetByLabel);
     optionByLabel = generatePieChartOption(dataByLabel);
     chartByLabel.setOption(optionByLabel);
 
+    console.log('cardsInfo: ', cardsInfo);
+    _.forEach(listsInfo, listInfo => {
+        console.log('listInfo:', listInfo);
+        const list = _.filter(cardsInfo, cardInfo => cardInfo.idList === listInfo.id);
+        dataSetByList = {...dataSetByList, [listInfo.name]: list};
+    });
+    console.log('dataSetByList:', dataSetByList);
     const dataByList = calculateRequirementChangeCountAndCardCountAsSource(dataSetByList);
+    console.log('dataByList:', dataByList);
     optionByList = generatePieChartOption(dataByList);
     chartByList.setOption(optionByList);
 }
