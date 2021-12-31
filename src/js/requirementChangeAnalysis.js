@@ -82,6 +82,7 @@ onConfirm = () => {
     if (period_value <= 0) {
         window.confirm("Period input error, please re-enter.");
     }
+    drawHistogram(start_data_value, end_data_value, period_value);
 }
 
 drawHistogram = (start_data_value, end_data_value, period_value) => {
