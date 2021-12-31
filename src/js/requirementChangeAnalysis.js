@@ -48,7 +48,7 @@ let itemsProcessed = 0;
 t.lists('all').then(lists => {
     listsInfo = lists;
 });
-t.cards('id', 'labels', 'name', 'dateLastActivity')
+t.cards('id', 'idList', 'labels', 'name', 'dateLastActivity')
     .then(cards => {
         cards.forEach((cardInfo, index, array) => {
             t.get(cardInfo.id, 'shared', 'requirementChangeCount')
@@ -158,15 +158,11 @@ drawPieChart = () => {
     optionByLabel = generatePieChartOption(dataByLabel);
     chartByLabel.setOption(optionByLabel);
 
-    console.log('cardsInfo: ', cardsInfo);
     _.forEach(listsInfo, listInfo => {
-        console.log('listInfo:', listInfo);
         const list = _.filter(cardsInfo, cardInfo => cardInfo.idList === listInfo.id);
         dataSetByList = {...dataSetByList, [listInfo.name]: list};
     });
-    console.log('dataSetByList:', dataSetByList);
     const dataByList = calculateRequirementChangeCountAndCardCountAsSource(dataSetByList);
-    console.log('dataByList:', dataByList);
     optionByList = generatePieChartOption(dataByList);
     chartByList.setOption(optionByList);
 }
