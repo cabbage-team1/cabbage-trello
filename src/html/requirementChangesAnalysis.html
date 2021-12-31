@@ -59,8 +59,8 @@
         </div>
         <div id="histogram" style="width:1000px; height: 600px; margin: 20px 0 0 0;">its for histogram</div>
     </div>
+    <div id="caption" style="justify-content: center;font-size: 38px;">Requirement Changes Story List</div>
     <table class="table" id="table">
-        <caption style="justify-content: center;font-size: 38px;">Requirement Changes Story List</caption>
         <tr>
             <th>Label</th>
             <th>Title</th>
@@ -84,6 +84,10 @@
 
     const table = document.getElementById('table');
     const fragment = document.createDocumentFragment();
+
+    if(cardsVersionRecordInfo === null || cardsVersionRecordInfo === '' || cardsVersionRecordInfo === undefined){
+        document.getElementById("table").innerHTML = "没有需求发生变更！";
+    }
 
     cardsVersionRecordInfo.forEach((card) => {
         tr = document.createElement('tr');
