@@ -8,7 +8,6 @@ export function getBoardButton(t, opts) {
             let lastTime = '';
             let versionList = [];
             axios.get(`http://localhost:8086/description/${card.id}`).then(function (res) {
-                console.log("1.res: ", res);
                 if (res.data.length > 1) {
                     res.data.forEach(version => {
                         if (version.id > maxId) {
@@ -23,7 +22,6 @@ export function getBoardButton(t, opts) {
                     cardVersionRecordInfo = cardVersionRecordInfo.sort(function (a, b) {
                         return a.maxId > b.maxId ? -1 : 1;
                     })
-                    console.log("4.cardVersionRecordInfo: ", cardVersionRecordInfo);
                 }
             })
         })

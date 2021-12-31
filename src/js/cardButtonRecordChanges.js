@@ -64,10 +64,7 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 }
 
 function onVersionBtnCLick(text) {
-    console.log("0.text: ", text);
     axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
-        console.log("进入.get方法")
-        console.log('0.5.list:', list);
         const versionNum = parseInt(text.substring(1));
         const lastVersionNum = versionNum - 1;
         const lastVersionText = `v${lastVersionNum}.0`;
@@ -81,15 +78,9 @@ function onVersionBtnCLick(text) {
                 oldData = item;
             }
         });
-        console.log('1.currentData: ', currentData);
-        console.log('1.5.currentData: ', currentData.descriptions);
-        console.log('2.oldData: ', oldData);
-        console.log('2.5.oldData: ', oldData.descriptions);
 
         const diff = Diff.diffChars(oldData.descriptions, currentData.descriptions);
         let savedTime = currentData.createdTime;
-        console.log("currentData.createTime: -> ", savedTime);
-        console.log("typeof currentData.createTime: -> ", typeof savedTime);
 
         return t.modal({
             url: './versionComparisons.html',
@@ -129,14 +120,11 @@ window.onSaveBtnClick = function onSaveBtnClick() {
             });
 
     t.card('id', 'desc').then(res => {
-        console.log('id', res);
         info.cardId = res.id;
         info.descriptions = res.desc;
         info.version = `v${requirementChangeCount}.0`;
         axios.post("http://localhost:8086/description", info).then(res => {
-            console.log("post return value: ", res)
             axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
-                console.log("save return list============", list.data.length)
                 let versionRecord = document.getElementById("versionRecord");
                 addBtnForVersionRecord(list, versionRecord, 0);
             });
