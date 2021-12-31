@@ -7,7 +7,7 @@ export function getBoardButton(t, opts) {
             let maxId = 0;
             let lastTime = '';
             let versionList = [];
-            axios.get(`http://localhost:8086/description/${card.id}`).then(function (res) {
+            axios.get(`http://122.51.213.254:8086/description/${card.id}`).then(function (res) {
                 if (res.data.length > 1) {
                     res.data.forEach(version => {
                         if (version.id > maxId) {
