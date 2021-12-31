@@ -72,15 +72,15 @@ onConfirm = () => {
     const end_data_value = document.getElementById("end-date").value;
     const period_value = document.getElementById("period").value;
     if (!start_data_value || !end_data_value || !period_value) {
-        window.confirm("参数输入不完整，请补全参数");
+        window.confirm("The parameter input is incomplete, please complete it.");
         return;
     }
     if (!moment(start_data_value).isBefore(moment(end_data_value))) {
-        window.confirm("开始日期晚于结束日期，请补全参数");
+        window.confirm("The start date is later than the end date, please re-enter.");
         return;
     }
     if (period_value <= 0) {
-        window.confirm("周期输入有误");
+        window.confirm("Period input error, please re-enter.");
     }
 }
 
