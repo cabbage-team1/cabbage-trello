@@ -89,6 +89,7 @@
         document.getElementById("table").innerHTML = "没有需求发生变更！";
     }
 
+    console.log("cardsVersionRecordInfo:->",cardsVersionRecordInfo);
     cardsVersionRecordInfo.forEach((card) => {
         tr = document.createElement('tr');
         let labelSet = card.labels.filter(label => label.name !== '');
