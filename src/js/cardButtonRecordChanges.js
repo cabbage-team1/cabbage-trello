@@ -64,7 +64,7 @@ const addBtnForVersionRecord = (list, versionRecord, curPage) => {
 }
 
 function onVersionBtnCLick(text) {
-    axios.get(`http://122.51.213.254:8086/description/${context.card}`).then(list => {
+    axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
         const versionNum = parseInt(text.substring(1));
         const lastVersionNum = versionNum - 1;
         const lastVersionText = `v${lastVersionNum}.0`;
@@ -96,7 +96,7 @@ function onVersionBtnCLick(text) {
 }
 
 const getVersionRecord = () => {
-    axios.get(`http://122.51.213.254:8086/description/${context.card}`).then(list => {
+    axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
         const versionRecord = document.getElementById("versionRecord");
         let curPage = 0;
         addBtnForVersionRecord(list, versionRecord, curPage);
@@ -123,8 +123,8 @@ window.onSaveBtnClick = function onSaveBtnClick() {
         info.cardId = res.id;
         info.descriptions = res.desc;
         info.version = `v${requirementChangeCount}.0`;
-        axios.post("http://122.51.213.254:8086/description", info).then(res => {
-            axios.get(`http://122.51.213.254:8086/description/${context.card}`).then(list => {
+        axios.post("http://localhost:8086/description", info).then(res => {
+            axios.get(`http://localhost:8086/description/${context.card}`).then(list => {
                 let versionRecord = document.getElementById("versionRecord");
                 addBtnForVersionRecord(list, versionRecord, 0);
             });

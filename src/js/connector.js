@@ -22,7 +22,7 @@ const getCardButtons = function (t) {
                 info.cardId = res.id;
                 info.descriptions = res.desc;
                 info.version = `v0.0`;
-                axios.post("http://122.51.213.254:8086/description", info);
+                axios.post("http://localhost:8086/description", info);
             });
         }
     })

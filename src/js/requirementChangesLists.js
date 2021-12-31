@@ -3,7 +3,7 @@ const t = window.TrelloPowerUp.iframe();
 const Diff = require('diff');
 
 window.onVersionBoardBtnCLick = function onVersionBoardBtnCLick(text,cardId) {
-    axios.get(`http://122.51.213.254:8086/description/${cardId}`).then(list => {
+    axios.get(`http://localhost:8086/description/${cardId}`).then(list => {
         const versionNum = parseInt(text.substring(1));
         const lastVersionNum = versionNum - 1;
         const lastVersionText = `v${lastVersionNum}.0`;
