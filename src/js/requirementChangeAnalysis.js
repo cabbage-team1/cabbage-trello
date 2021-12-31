@@ -90,20 +90,20 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
     const moment = require('moment');
     let source = [['cycle', 'cards count', 'changes count']];
     const period = period_value ? _.toNumber(period_value) : 14;
-    const startDate = _.isEmpty(start_data_value) ? moment().local().endOf('week').subtract(14 * 6, 'days') : moment(start_data_value);
+    const startDate = _.isEmpty(start_data_value) ? moment().local().endOf('week').subtract(14 * 6, 'days') : moment(start_data_value).subtract(1, 'minutes').endOf('day');
     const endDate = _.isEmpty(end_data_value) ? moment().local().endOf('week') : moment(end_data_value);
     let periodStartPivot = startDate;
     while (endDate.isAfter(periodStartPivot)) {
-        const periodStart = _.cloneDeep(periodStartPivot);
+        const periodStart = _.cloneDeep(periodStartPivot).add(1, 'minutes').startOf('day');
         const periodEnd = periodStartPivot.add(period, 'days');
         const list = _.filter(cardsInfo, cardInfo => {
             const dateLastActivityOfCard = moment(cardInfo.dateLastActivity);
-            return periodStart.isBefore(dateLastActivityOfCard) && periodEnd.isAfter(dateLastActivityOfCard) && _.get(cardInfo, 'requirementChangeCount');
+            return periodStart.isBefore(dateLastActivityOfCard) && periodEnd.isAfter(dateLastActivityOfCard) && _.get(cardInfo, 'demandChangeCount');
         });
         const cardCount = list.length;
         let changeCount = 0;
         _.forEach(list, singleCard => {
-            const singleCount = _.get(singleCard, 'requirementChangeCount', 0);
+            const singleCount = _.get(singleCard, 'demandChangeCount', 0);
             changeCount += singleCount;
         });
         source = [...source, [`${periodStart.format('yyyy/MM/DD')}~${periodEnd.format('yyyy/MM/DD')}`, cardCount, changeCount]];
@@ -111,6 +111,7 @@ drawHistogram = (start_data_value, end_data_value, period_value) => {
     const histogramOption = generateHistogramOption(source);
     myHistogram.setOption(histogramOption);
 }
+
 generateHistogramOption = source => {
     const histogramOption = {
         color: ['#d3f998', '#59c276'],
